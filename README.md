@@ -65,7 +65,7 @@ Similarly:
 
 P(r | a) = (c[a,r] + α) / ( Σ_r c[a,r] + K · α )
 
-where `K`` is an approximate vocabulary size (configurable) and `c[a,r]` is the count of accesses by actor `a` to resource type `r`.
+where `K` is an approximate vocabulary size (configurable) and `c[a,r]` is the count of accesses by actor `a` to resource type `r`.
 
 #### (c) Discrete risk signals
 Some signals are naturally categorical and remain binary:
