@@ -1,0 +1,2 @@
+[console_scripts]
+access-anomaly-detector = access_anomaly_detector.cli:main

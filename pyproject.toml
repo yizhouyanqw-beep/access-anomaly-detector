@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "access-anomaly-detector"
+version = "0.1.0"
+description = "Explainable access anomaly detection on audit logs (v0)."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{name = "Your Name"}]
+dependencies = [
+  "PyYAML>=6.0"
+]
+
+[project.scripts]
+access-anomaly-detector = "access_anomaly_detector.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

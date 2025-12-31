@@ -1,0 +1,19 @@
+Metadata-Version: 2.4
+Name: access-anomaly-detector
+Version: 0.1.0
+Summary: Explainable access anomaly detection on audit logs (v0).
+Author: Your Name
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: PyYAML>=6.0
+
+# access-anomaly-detector (v0)
+
+Explainable anomaly detection for access/audit logs.
+
+## Install
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -e .

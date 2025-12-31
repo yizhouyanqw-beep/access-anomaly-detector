@@ -1,0 +1,26 @@
+scoring:
+  engine: "rule_based"     # rule_based | baseline
+  thresholds:
+    high: 0.8
+    medium: 0.5
+
+weights:
+  unusual_hour: 0.30
+  unusual_resource_type: 0.30
+  new_device: 0.20
+  sensitive_resource: 0.20
+  rare_resource_for_org: 0.10
+
+sensitivity_labels:
+  PROTOTYPE_CRITICAL: 1.0
+  HIGH: 0.7
+  MEDIUM: 0.4
+  LOW: 0.1
+
+baseline:
+  min_history_events: 30
+  hour_lookback_days: 30
+  rare_resource_actor_threshold: 3
+
+  smoothing_alpha: 1.0         # Laplace smoothing
+  rtype_vocab_size: 50         # approximate # of possible resource types in your org/logs
