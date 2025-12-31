@@ -84,9 +84,7 @@ Each signal produces:
 
 Signals are combined via a **weighted additive risk model**:
 
-\[
-\text{score} = \min\left(1,\; \sum_i w_i \cdot S_i \right)
-\]
+score = min( 1 , Σ_i ( w_i · S_i ) )
 
 Weights are configurable in `config.yaml`.
 
@@ -110,8 +108,6 @@ Every scored event includes:
   - “Unusual resource_type for actor (HW_LAB_DEVICE)”
   - “New device_fingerprint for this actor”
 - **Recommended actions**, aligned with severity
-
-No black-box models or opaque embeddings are used in v0.1.
 
 ---
 
