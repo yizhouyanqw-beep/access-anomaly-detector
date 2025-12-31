@@ -28,51 +28,44 @@ What is often missing is **behavior-aware monitoring**, such as:
 
 ---
 
-## 2. Modeling approach (v0.1)
+## 2. Modeling approach
 
 ### 2.1 Empirical baselines
 
-The system maintains **online empirical distributions** using SQLite:
+The system maintains **online empirical distributions** using SQLite.  
+These baselines summarize historical access behavior and are updated incrementally after each event (no batch training required).
 
 | Baseline | Interpretation |
 |--------|----------------|
-| Actor × hour histogram | \( P(\text{hour} \mid \text{actor}) \) |
-| Actor × resource type counts | \( P(\text{resource\_type} \mid \text{actor}) \) |
-| Actor × device fingerprints | Known vs new device |
-| Resource × recent actors | How many people typically touch this asset |
+| Actor × hour histogram | Empirical distribution of access hours per actor (P(hour \| actor)) |
+| Actor × resource type counts | Empirical distribution of resource types per actor (P(resource_type \| actor)) |
+| Actor × device fingerprints | Whether a device has been seen before for an actor |
+| Resource × recent actors | Number of distinct actors who accessed a resource recently |
 
-Baselines are updated incrementally after each event (no batch training required).
+These empirical summaries form the statistical foundation for likelihood-based anomaly scoring in later stages.
 
----
 
 ### 2.2 Likelihood-based anomaly signals
 
 Instead of heuristic thresholds, v0.1 uses **smoothed probability estimates** and converts them into anomaly magnitudes.
 
 #### (a) Unusual access time
-For an actor \(a\) and UTC hour \(h\):
+For an actor `a` and UTC hour `h`:
 
-\[
-P(h \mid a) = \frac{c_{a,h} + \alpha}{\sum_h c_{a,h} + 24\alpha}
-\]
+P(h | a) = (c[a,h] + α) / ( Σ_h c[a,h] + 24 · α )
 
 Anomaly magnitude:
 
-\[
-S_{\text{hour}} = \frac{-\log P(h \mid a)}{-\log P_{\min}}
-\quad\in [0,1]
-\]
+S_hour = -log( P(h | a) ) / -log( P_min )
 
-where \(P_{\min}\) corresponds to an unseen hour under Laplace smoothing.
+where `P_min` corresponds to an unseen hour under Laplace smoothing.
 
 #### (b) Unusual resource type
 Similarly:
 
-\[
-P(r \mid a) = \frac{c_{a,r} + \alpha}{\sum_r c_{a,r} + K\alpha}
-\]
+P(r | a) = (c[a,r] + α) / ( Σ_r c[a,r] + K · α )
 
-where \(K\) is an approximate vocabulary size (configurable).
+where `K`` is an approximate vocabulary size (configurable) and `c[a,r]` is the count of accesses by actor `a` to resource type `r`.
 
 #### (c) Discrete risk signals
 Some signals are naturally categorical and remain binary:
